@@ -1,0 +1,90 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run
+
+## exception
+
+SocketException: SocketException: Send failed (OS Error: No route to host, errno = 65), address = 0.0.0.0, port = 5353
+
+```
+#0      _NativeSocket.send (dart:io-patch/socket_patch.dart:1269:34)
+#1      _RawDatagramSocket.send (dart:io-patch/socket_patch.dart:2582:15)
+#2      MDnsClient.lookup (package:multicast_dns/multicast_dns.dart:225:14)
+#3      MDnsVmServiceDiscovery._pollingVmService (package:flutter_tools/src/mdns_discovery.dart:228:66)
+<asynchronous suspension>
+#4      MDnsVmServiceDiscovery.firstMatchingVmService (package:flutter_tools/src/mdns_discovery.dart:184:56)
+<asynchronous suspension>
+#5      MDnsVmServiceDiscovery.getVMServiceUriForLaunch (package:flutter_tools/src/mdns_discovery.dart:429:50)
+<asynchronous suspension>
+#6      Future.any.onValue (dart:async/future.dart:615:5)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[33m[!][39m Flutter (Channel stable, 3.13.9, on macOS 15.1.1 24B91 darwin-arm64, locale en-AU)
+    [32m•[39m Flutter version 3.13.9 on channel stable at /Users/tully/development/flutter
+    [33m![39m Warning: `dart` on your path resolves to /opt/homebrew/Cellar/dart/3.1.5/libexec/bin/dart, which is not inside your current Flutter SDK checkout at /Users/tully/development/flutter. Consider adding
+      /Users/tully/development/flutter/bin to the front of your path.
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision d211f42860 (1 year, 2 months ago), 2023-10-25 13:42:25 -0700
+    [32m•[39m Engine revision 0545f8705d
+    [32m•[39m Dart version 3.1.5
+    [32m•[39m DevTools version 2.25.0
+    [32m•[39m If those were intentional, you can disregard the above warnings; however it is recommended to use "git" directly to perform update checks and upgrades.
+
+[33m[!][39m Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+    [32m•[39m Android SDK at /Users/tully/Library/Android/sdk
+    [32m•[39m Platform android-34, build-tools 34.0.0
+    [32m•[39m Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.6+0-17.0.6b802.4-9586694)
+    [33m![39m Some Android licenses not accepted. To resolve this, run: flutter doctor --android-licenses
+
+[32m[✓][39m Xcode - develop for iOS and macOS (Xcode 16.2)
+    [32m•[39m Xcode at /Applications/Xcode.app/Contents/Developer
+    [32m•[39m Build 16C5032a
+    [32m•[39m CocoaPods version 1.16.2
+
+[32m[✓][39m Chrome - develop for the web
+    [32m•[39m Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[32m[✓][39m Android Studio (version 2022.2)
+    [32m•[39m Android Studio at /Applications/Android Studio.app/Contents
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.6+0-17.0.6b802.4-9586694)
+
+[32m[✓][39m IntelliJ IDEA Ultimate Edition (version 2024.2.5)
+    [32m•[39m IntelliJ at /Applications/IntelliJ IDEA.app
+    [32m•[39m Flutter plugin version 83.0.3
+    [32m•[39m Dart plugin version 242.24931
+
+[32m[✓][39m IntelliJ IDEA Community Edition (version 2024.1.2)
+    [32m•[39m IntelliJ at /Applications/IntelliJ IDEA CE.app
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+
+[32m[✓][39m VS Code (version 1.90.0)
+    [32m•[39m VS Code at /Applications/Visual Studio Code.app/Contents
+    [32m•[39m Flutter extension can be installed from:
+      🔨 https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
+
+[32m[✓][39m Connected device (4 available)
+    [32m•[39m Tully’s iPhone (mobile)             • 00008140-0019693E1407001C            • ios            • iOS 18.2 22C152
+    [32m•[39m iPhone SE (3rd generation) (mobile) • E007A53C-C92F-4D88-8A41-18A205699877 • ios            • com.apple.CoreSimulator.SimRuntime.iOS-18-2 (simulator)
+    [32m•[39m macOS (desktop)                     • macos                                • darwin-arm64   • macOS 15.1.1 24B91 darwin-arm64
+    [32m•[39m Chrome (web)                        • chrome                               • web-javascript • Google Chrome 131.0.6778.141
+
+[32m[✓][39m Network resources
+    [32m•[39m All expected network resources are available.
+
+[33m![39m Doctor found issues in 2 categories.
+```
