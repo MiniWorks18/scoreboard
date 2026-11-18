@@ -1,0 +1,344 @@
+{
+  "constants": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "bool",
+      "value": true
+    },
+    {
+      "type": "int",
+      "value": 57415
+    },
+    {
+      "type": "int",
+      "value": 57490
+    },
+    {
+      "type": "int",
+      "value": 57785
+    },
+    {
+      "type": "int",
+      "value": 58372
+    },
+    {
+      "type": "int",
+      "value": 61563
+    },
+    {
+      "type": "int",
+      "value": 62410
+    },
+    {
+      "type": "int",
+      "value": 62775
+    },
+    {
+      "type": "int",
+      "value": 63471
+    },
+    {
+      "type": "int",
+      "value": 983065
+    },
+    {
+      "type": "int",
+      "value": 983143
+    },
+    {
+      "type": "int",
+      "value": 983281
+    },
+    {
+      "type": "int",
+      "value": 983302
+    },
+    {
+      "type": "int",
+      "value": 983466
+    },
+    {
+      "type": "int",
+      "value": 983640
+    },
+    {
+      "type": "int",
+      "value": 983649
+    },
+    {
+      "type": "string",
+      "value": "MaterialIcons"
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 3,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 4,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 2
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 5,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 6,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 7,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 8,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 9,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 10,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 11,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 12,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 13,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 14,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 15,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 16,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 1
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "codePoint": 17,
+        "fontFamily": 18,
+        "fontFamilyFallback": 0,
+        "fontPackage": 0,
+        "matchTextDirection": 2
+      }
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "IconData"
+        }
+      ],
+      "uri": "package:flutter/src/widgets/icon_data.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "main.dart.js"
+    }
+  ],
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "constant_index": 19,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 20,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 21,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 22,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 23,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 24,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 25,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 26,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 27,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 28,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 29,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 30,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 31,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 32,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 33,
+            "loading_unit_index": 0,
+            "type": "constant"
+          }
+        ]
+      }
+    ]
+  }
+}

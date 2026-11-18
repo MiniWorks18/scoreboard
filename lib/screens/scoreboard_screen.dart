@@ -1,298 +1,274 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
+import '../controllers/scoreboard_controller.dart';
+import '../widgets/edit_player_dialog.dart';
+import '../widgets/glass_dialog.dart';
 import '../widgets/player_tile.dart';
 import '../widgets/score_dialog.dart';
-
-// Fun player names and colours. Feel free to add more!
-// Names should be themed around cute Australian native animals with a funny twist, like 'Hairless Wombat' or 'Sassy Quokka'.
-const descriptiveLibrary = ['Swole', 'Chill', 'Bouncy', 'Sneaky', 'Tiny', 'Wavy', 'Sassy', 'Zesty', 'Sparkly', 'Stealthy', 'Puffy', 'Spicy', 'Feisty', 'Shiny', 'Hoppin', 'Jazzy', 'Gloopy', 'Twisty', 'Nifty', 'Kicky']
-;
-const animalLibrary = ['Koala', 'Pademelon', 'Wombat', 'Quokka', 'Platypus', 'Bandicoot', 'Wallaby', 'Froglet', 'Possum', 'Sugar Glider', 'Echidna', 'Kangaroo', 'Numbat', 'Quoll', 'Dingo', 'Tasmanian Devil', 'Frog', 'Kookaburra', 'Frogmouth'];
-
+import '../widgets/score_history_dialog.dart';
 
 class ScoreboardScreen extends StatefulWidget {
   @override
-  _ScoreboardScreenState createState() => _ScoreboardScreenState();
+  State<ScoreboardScreen> createState() => _ScoreboardScreenState();
 }
 
 class _ScoreboardScreenState extends State<ScoreboardScreen> {
-
-  // add players in the constructor
-  _ScoreboardScreenState() {
-    for (int i = 0; i < 4; i++) {
-      generatePlayerObject();
-    }
-  }
-
-
-  List<Map<String, dynamic>> players = [];
-
-  generatePlayerObject() {
-    // Generate a random player name that isn't already in the players list
-    String randomName;
-    do {
-      randomName = animalLibrary[Random().nextInt(animalLibrary.length)];
-    } while (players.any((player) => player['name'] == randomName));
-
-    // Generate a random background color that isn't already in the players list
-    Color randomColor;
-    do {
-      randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
-    } while (players.any((player) => player['backgroundColor'] == randomColor));
-
-    // Add the new player to the list
-    players.add({
-      'name': randomName,
-      'score': 0,
-      'history': [0],
-      'backgroundColor': randomColor,
-    });
-  }
-
-  void updateScore(int index, int delta) {
-    setState(() {
-      players[index]['score'] += delta;
-      players[index]['history'].add(players[index]['score']);
-    });
-  }
-
-  void showScoreDialog(int index) {
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ScoreDialog(
-          playerName: players[index]['name'],
-          onScoreUpdate: (int delta) => updateScore(index, delta),
-          onViewHistory: () => showHistory(index),
-        );
-      },
-    );
-  }
-
-  void showHistory(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Score History: ${players[index]['name']}'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: players[index]['history']
-                  .map<Widget>((score) => Text(score.toString()))
-                  .toList(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-// Edit the player's properties:
-  // - name
-  // - background color
-  // - delete button
-  void editPlayer(int index) {
-    // Use ValueNotifier to track selected color
-    ValueNotifier<Color> selectedColorNotifier = ValueNotifier<Color>(players[index]['backgroundColor']);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        final TextEditingController nameController = TextEditingController(text: players[index]['name']);
-
-        // Available colors to choose from
-        List<Color> colorOptions = [
-          Colors.red, Colors.green, Colors.blue, Colors.orange,
-          Colors.purple, Colors.yellow, Colors.pink, Colors.cyan,
-          Colors.brown, Colors.teal, Colors.indigo, Colors.amber,
-        ];
-
-        return AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Edit Player'),
-              IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  setState(() {
-                    players.removeAt(index); // Delete the player
-                  });
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
-                onChanged: (newName) {
-                  setState(() {
-                    players[index]['name'] = newName;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0),
-              // Color picker title
-              Text('Select Background Color:'),
-              SizedBox(height: 16.0),
-              // Color picker using Wrap
-              Wrap(
-                spacing: 10.0, // Horizontal space between items
-                runSpacing: 10.0, // Vertical space between rows
-                children: List.generate(colorOptions.length, (i) {
-                  return GestureDetector(
-                    onTap: () {
-                      // Update the selected color in the ValueNotifier
-                      selectedColorNotifier.value = colorOptions[i];
-                      // Also update the player's background color immediately
-                      setState(() {
-                        players[index]['backgroundColor'] = colorOptions[i];
-                      });
-                    },
-                    child: ValueListenableBuilder<Color>(
-                      valueListenable: selectedColorNotifier,
-                      builder: (context, selectedColor, child) {
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // The ring (behind the circle) with gap
-                            Positioned(
-                              child: Container(
-                                width: 50.0,
-                                height: 50.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: selectedColor == colorOptions[i]
-                                        ? Colors.lightBlueAccent // Show ring if selected
-                                        : Colors.transparent,
-                                    width: 3.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // The color circle
-                            Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: colorOptions[i], // Update the circle color here
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-
-
-
-
-
-
-
-
-
+  final _scoreboard = ScoreboardController();
 
   @override
-  Widget build(BuildContext context) {
-    String? winningPlayer;
-    if (players.isNotEmpty) {
-      winningPlayer = players.reduce((a, b) => a['score'] > b['score'] ? a : b)['name'];
-    }
+  void initState() {
+    super.initState();
+    _scoreboard.initialize();
+  }
 
-    // Dunno why, but we need to subtract 35 from the available height to make it work
-    double availableHeight = MediaQuery.of(context).size.height - kToolbarHeight-95;
+  @override
+  void dispose() {
+    _scoreboard.dispose();
+    super.dispose();
+  }
 
-    return Scaffold(
-      body: Column(
-        children: [
-          // Title Bar
-          SafeArea(
-            child:
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Winning Player
-                  if (winningPlayer != null)
-                    Text(
-                      '🏆 $winningPlayer',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  // Add Player Button
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      setState(() => generatePlayerObject());
-                    },
-                    tooltip: 'Add Player',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Player List
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      // Calculate tile height based on the available space
-                      double tileHeight = availableHeight / players.length;
+  Future<void> _showScoreDialog(int playerId) async {
+    final player = _scoreboard.playerById(playerId);
+    if (player == null) return;
 
-                      return SizedBox(
-                        height: tileHeight, // Dynamic height for each tile
-                        child: PlayerTile(
-                          name: players[index]['name'],
-                          score: players[index]['score'],
-                          backgroundColor: players[index]['backgroundColor'],
-                          isWideLayout: players.length > 5,
-                          onAdd: () => updateScore(index, 1),
-                          onSubtract: () => updateScore(index, -1),
-                          onTap: () => showScoreDialog(index),
-                          onSettings: () => editPlayer(index),
-                        ),
-                      );
-                    },
-                    childCount: players.length,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+    final delta = await showGlassDialog<int>(
+      context: context,
+      builder: (context) => AnimatedBuilder(
+        animation: _scoreboard,
+        builder: (context, child) {
+          final current = _scoreboard.playerById(playerId) ?? player;
+          return ScoreDialog(
+            playerName: current.name,
+            currentScore: current.score,
+            playerColor: current.backgroundColor,
+            onViewHistory: () => _showHistory(playerId),
+          );
+        },
+      ),
+    );
+    if (!mounted || delta == null) return;
+
+    _scoreboard.adjustScore(playerId, delta);
+  }
+
+  void _showHistory(int playerId) {
+    final player = _scoreboard.playerById(playerId);
+    if (player == null) return;
+
+    showGlassDialog<void>(
+      context: context,
+      builder: (context) => AnimatedBuilder(
+        animation: _scoreboard,
+        builder: (context, child) => ScoreHistoryDialog(
+          player: _scoreboard.playerById(playerId) ?? player,
+          onUndo: () => _scoreboard.undoScore(playerId),
+        ),
       ),
     );
   }
 
+  Future<void> _editPlayer(int playerId) async {
+    final player = _scoreboard.playerById(playerId);
+    if (player == null) return;
 
+    final result = await showGlassDialog<PlayerEditResult>(
+      context: context,
+      builder: (context) => EditPlayerDialog(player: player),
+    );
+    if (!mounted || result == null) return;
 
+    if (result.delete) {
+      _scoreboard.removePlayer(playerId);
+    } else {
+      _scoreboard.editPlayer(
+        playerId,
+        name: result.name,
+        backgroundColor: result.backgroundColor,
+      );
+    }
+  }
 
+  Future<void> _newGame() async {
+    final confirmed = await showGlassDialog<bool>(
+      context: context,
+      builder: (context) => GlassDialog(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('Start a new game?', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 12),
+              const Text('All scores and history will be reset. Player names and colours will stay.'),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                child: const Text('Start new game'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                style: TextButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                child: const Text('Keep playing'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (mounted && confirmed == true) _scoreboard.newGame();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _scoreboard,
+      builder: (context, child) {
+        if (_scoreboard.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator(semanticsLabel: 'Restoring game')),
+          );
+        }
+        final players = _scoreboard.players;
+        final winner = _scoreboard.winner;
+
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 12, 20, 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Scoreboard',
+                              style: TextStyle(
+                                fontSize: 28,
+                                letterSpacing: -0.8,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              winner == null ? 'Ready for a game?' : '🏆 ${winner.name}',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(color: Color(0xFF526079), fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      IconButton(
+                        icon: const Icon(Icons.person_add_alt_1_rounded),
+                        onPressed: _scoreboard.addPlayer,
+                        tooltip: 'Add Player',
+                        style: IconButton.styleFrom(
+                          minimumSize: const Size(52, 52),
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF192A45),
+                          side: const BorderSide(color: Color(0xFFE1E7F0)),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.restart_alt_rounded),
+                        tooltip: 'New game',
+                        onPressed: _newGame,
+                        constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+                      ),
+                    ],
+                  ),
+                ),
+                if (_scoreboard.storageMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    child: Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        _scoreboard.storageMessage!,
+                        style: const TextStyle(color: Color(0xFFB83E55), fontSize: 13),
+                      ),
+                    ),
+                  ),
+                Expanded(
+                  child: players.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.sports_esports_outlined,
+                                    size: 56, color: Color(0xFF526079)),
+                                const SizedBox(height: 16),
+                                const Text('Add a player to get started.'),
+                                const SizedBox(height: 16),
+                                ElevatedButton.icon(
+                                  onPressed: _scoreboard.addPlayer,
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Add player'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : LayoutBuilder(
+                          builder: (context, constraints) {
+                            final tileHeight = max(
+                              players.length > 5 ? 120.0 : 156.0,
+                              constraints.maxHeight / players.length,
+                            );
+
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: players.length,
+                              findChildIndexCallback: (key) {
+                                final index = players.indexWhere(
+                                  (player) => ValueKey(player.id) == key,
+                                );
+                                return index == -1 ? null : index;
+                              },
+                              itemBuilder: (context, index) {
+                                final player = players[index];
+                                return SizedBox(
+                                  key: ValueKey(player.id),
+                                  height: tileHeight,
+                                  child: PlayerTile(
+                                    name: player.name,
+                                    score: player.score,
+                                    backgroundColor: player.backgroundColor,
+                                    isWideLayout: players.length > 5,
+                                    onAdd: () => _scoreboard.adjustScore(player.id, 1),
+                                    onSubtract: () => _scoreboard.adjustScore(player.id, -1),
+                                    onTap: () => _showScoreDialog(player.id),
+                                    onSettings: () => _editPlayer(player.id),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+                  child: Text(
+                    players.isEmpty ? 'Your next game starts here' : 'Tap a score to add points',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Color(0xFF526079), fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
